@@ -14,7 +14,7 @@ import java.util.List;
  * Created by jt on 12/14/15.
  */
 @Service
-@Profile("jpadao")
+@Profile("jpadao-dontuse")
 public class CustomerServiceJPADaoImpl extends AbstractJpaDaoService implements CustomerService {
 
     private EncryptionService encryptionService;

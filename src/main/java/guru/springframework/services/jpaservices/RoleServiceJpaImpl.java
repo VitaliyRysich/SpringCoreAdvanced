@@ -12,7 +12,7 @@ import java.util.List;
  * Created by jt on 12/18/15.
  */
 @Service
-@Profile("jpadao")
+@Profile("jpadao-dontuse")
 public class RoleServiceJpaImpl extends AbstractJpaDaoService implements RoleService {
 
     @Override
