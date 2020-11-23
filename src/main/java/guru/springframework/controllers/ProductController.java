@@ -1,6 +1,7 @@
 package guru.springframework.controllers;
 
 import guru.springframework.commands.ProductForm;
+import guru.springframework.converters.ProductToProductForm;
 import guru.springframework.domain.Product;
 import guru.springframework.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +21,16 @@ import javax.validation.Valid;
 public class ProductController {
 
     private ProductService productService;
+    private ProductToProductForm productToProductForm;
 
     @Autowired
     public void setProductService(ProductService productService) {
         this.productService = productService;
+    }
+
+    @Autowired
+    public void setProductToProductForm(ProductToProductForm productToProductForm) {
+        this.productToProductForm = productToProductForm;
     }
 
     @RequestMapping("/product/list")
@@ -40,7 +47,10 @@ public class ProductController {
 
     @RequestMapping("product/edit/{id}")
     public String edit(@PathVariable Integer id, Model model){
-        model.addAttribute("product", productService.getById(id));
+        Product product = productService.getById(id);
+        ProductForm productForm = productToProductForm.convert(product);
+
+        model.addAttribute("product", productForm);
         return "product/productform";
     }
 

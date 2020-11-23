@@ -4,10 +4,12 @@ import guru.springframework.commands.CustomerForm;
 import guru.springframework.converters.CustomerFormToCustomer;
 import guru.springframework.domain.Customer;
 import guru.springframework.repositories.CustomerRepository;
+import guru.springframework.repositories.UserRepository;
 import guru.springframework.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +20,7 @@ public class CustomerServiceRepoImpl implements CustomerService {
 
     private CustomerRepository customerRepository;
     private CustomerFormToCustomer customerFormToCustomer;
+    private UserRepository userRepository;
 
     @Autowired
     public void setCustomerServiceRepo(CustomerRepository customerRepository) {
@@ -27,6 +30,10 @@ public class CustomerServiceRepoImpl implements CustomerService {
     @Autowired
     public void setCustomerFormToCustomer(CustomerFormToCustomer customerFormToCustomer) {
         this.customerFormToCustomer = customerFormToCustomer;
+    }
+    @Autowired
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -47,8 +54,12 @@ public class CustomerServiceRepoImpl implements CustomerService {
     }
 
     @Override
+    @Transactional
     public void delete(Integer id) {
-        customerRepository.delete(id);
+        Customer customer = customerRepository.findOne(id);
+
+        userRepository.delete(customer.getUser());
+        customerRepository.delete(customer);
     }
 
     @Override
