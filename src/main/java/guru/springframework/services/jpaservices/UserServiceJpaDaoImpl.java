@@ -62,4 +62,11 @@ public class UserServiceJpaDaoImpl extends AbstractJpaDaoService implements User
         em.remove(em.find(User.class, id));
         em.getTransaction().commit();
     }
+
+    @Override
+    public User findByUserName(String name) {
+        EntityManager em = emf.createEntityManager();
+        String query = "from User where username = :userName";
+        return em.createQuery(query, User.class).getSingleResult();
+    }
 }
