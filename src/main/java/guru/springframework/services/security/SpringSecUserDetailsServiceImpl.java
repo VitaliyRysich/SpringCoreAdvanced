@@ -9,8 +9,10 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
-public class SpringSecUserDetaisServiceImpl implements UserDetailsService {
+@Service("userDetailsService")
+public class SpringSecUserDetailsServiceImpl implements UserDetailsService {
 
     private UserService userService;
     private Converter<User, UserDetails> userUserDetailsConverter;
