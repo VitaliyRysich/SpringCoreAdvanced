@@ -55,12 +55,15 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
         List<User> users = (List<User>) userService.listAll();
 
         roles.forEach(role ->{
-            if(role.getRole().equalsIgnoreCase("CUSTOMER")){
+            if(role.getRole().equalsIgnoreCase("ADMIN")){
                 users.forEach(user -> {
-                    user.addRole(role);
-                    userService.saveOrUpdate(user);
+                    if(user.getUsername().equals("fglenanne")) {
+                        user.addRole(role);
+                        userService.saveOrUpdate(user);
+                    }
                 });
             }
+
         });
     }
 
@@ -68,6 +71,10 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
         Role role = new Role();
         role.setRole("CUSTOMER");
         roleService.saveOrUpdate(role);
+
+        Role adminRole = new Role();
+        adminRole.setRole("ADMIN");
+        roleService.saveOrUpdate(adminRole);
     }
 
     private void loadOrderHistory() {
