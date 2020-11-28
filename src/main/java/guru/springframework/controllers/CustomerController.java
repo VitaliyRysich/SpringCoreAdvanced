@@ -1,6 +1,7 @@
 package guru.springframework.controllers;
 
 import guru.springframework.commands.CustomerForm;
+import guru.springframework.commands.validators.CustomerFormValidator;
 import guru.springframework.converters.CustomerToCustomerForm;
 import guru.springframework.domain.Customer;
 import guru.springframework.services.CustomerService;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
+
 
 /**
  * Created by jt on 11/15/15.
@@ -34,7 +36,7 @@ public class CustomerController {
 
     @Autowired
     @Qualifier("customerFormValidator")
-    public void setCustomerFormValidator(Validator customerFormValidator) {
+    public void setCustomerFormValidator(CustomerFormValidator customerFormValidator) {
         this.customerFormValidator = customerFormValidator;
     }
 
@@ -59,8 +61,8 @@ public class CustomerController {
     public String edit(@PathVariable Integer id, Model model){
 
         Customer customer = customerService.getById(id);
-        CustomerForm customerForm = customerToCustomerForm.convert(customer);
-        model.addAttribute("customerForm", customerForm);
+
+        model.addAttribute("customerForm", customerToCustomerForm.convert(customer));
         return "customer/customerform";
     }
 
@@ -73,10 +75,10 @@ public class CustomerController {
     @RequestMapping(method = RequestMethod.POST)
     public String saveOrUpdate(@Valid CustomerForm customerForm, BindingResult bindingResult){
 
-        customerFormValidator.validate(customerForm,bindingResult);
+        customerFormValidator.validate(customerForm, bindingResult);
 
         if(bindingResult.hasErrors()){
-            return "customer/customerForm";
+            return "customer/customerform";
         }
 
         Customer newCustomer = customerService.saveOrUpdateCustomerForm(customerForm);

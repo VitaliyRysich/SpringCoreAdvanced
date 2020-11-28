@@ -5,8 +5,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+/**
+ * Created by jt on 12/24/15.
+ */
 @Component
-public class CustomerFormValidator implements Validator {
+public class CustomerFormValidator implements Validator{
 
     @Override
     public boolean supports(Class<?> aClass) {
@@ -14,13 +17,13 @@ public class CustomerFormValidator implements Validator {
     }
 
     @Override
-    public void validate(Object o, Errors errors) {
+    public void validate(Object target, Errors errors) {
 
-        CustomerForm customerForm = (CustomerForm) o;
+        CustomerForm customerForm = (CustomerForm) target;
 
         if(!customerForm.getPasswordText().equals(customerForm.getPasswordTextConf())){
-            errors.rejectValue("passwordText", "PasswordsDontMach.customerForm.passwordText", "Passwords don't match");
-            errors.rejectValue("passwordTextConf", "PasswordsDontMach.customerForm.passwordTextConf", "Passwords don't match");
+            errors.rejectValue("passwordText", "PasswordsDontMatch.customerForm.passwordText", "Passwords Don't Match");
+            errors.rejectValue("passwordTextConf", "PasswordsDontMatch.customerForm.passwordTextConf", "Passwords Don't Match");
         }
     }
 }

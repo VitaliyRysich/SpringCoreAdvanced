@@ -3,19 +3,23 @@ package guru.springframework.services.reposervices;
 import guru.springframework.domain.Order;
 import guru.springframework.repositories.OrderRepository;
 import guru.springframework.services.OrderService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Created by jt on 12/21/15.
+ */
 @Service
-@Profile({"springdatajpa", "jpadao"})
+@Profile("springdatajpa")
 public class OrderServiceRepoImpl implements OrderService {
 
     private OrderRepository orderRepository;
 
-
+    @Autowired
     public void setOrderRepository(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
     }
@@ -23,7 +27,7 @@ public class OrderServiceRepoImpl implements OrderService {
     @Override
     public List<?> listAll() {
         List<Order> orders = new ArrayList<>();
-        orderRepository.findAll().forEach(orders::add);
+        orderRepository.findAll().forEach(orders::add); //fun with Java 8
         return orders;
     }
 

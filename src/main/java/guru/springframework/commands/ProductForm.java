@@ -3,63 +3,70 @@ package guru.springframework.commands;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 
+/**
+ * Created by jt on 12/24/15.
+ */
 public class ProductForm {
-    private Integer productId;
-    private Integer productVersion;
+
+    private Integer id;
+    private Integer version;
 
     @NotEmpty
     @Size(min = 5, max = 200)
-    private String productDescription;
+    private String description;
 
     @NotNull
     @Min(0)
     @Max(5000)
-    private BigDecimal productPrice;
+    private BigDecimal price;
 
     @NotEmpty
     @URL
-    private String productImageUrl;
+    private String imageUrl;
 
-    public Integer getProductId() {
-        return productId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setProductId(Integer productId) {
-        this.productId = productId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public Integer getProductVersion() {
-        return productVersion;
+    public Integer getVersion() {
+        return version;
     }
 
-    public void setProductVersion(Integer productVersion) {
-        this.productVersion = productVersion;
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 
-    public String getProductDescription() {
-        return productDescription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setProductDescription(String productDescription) {
-        this.productDescription = productDescription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public BigDecimal getProductPrice() {
-        return productPrice;
+    public BigDecimal getPrice() {
+        return price;
     }
 
-    public void setProductPrice(BigDecimal productPrice) {
-        this.productPrice = productPrice;
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 
-    public String getProductImageUrl() {
-        return productImageUrl;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setProductImageUrl(String productImageUrl) {
-        this.productImageUrl = productImageUrl;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

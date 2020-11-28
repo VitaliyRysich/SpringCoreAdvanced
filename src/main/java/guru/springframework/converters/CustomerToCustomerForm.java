@@ -1,12 +1,13 @@
 package guru.springframework.converters;
 
 import guru.springframework.commands.CustomerForm;
-import guru.springframework.domain.Address;
 import guru.springframework.domain.Customer;
-import guru.springframework.domain.User;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
+/**
+ * Created by jt on 9/26/16.
+ */
 @Component
 public class CustomerToCustomerForm implements Converter<Customer, CustomerForm> {
 

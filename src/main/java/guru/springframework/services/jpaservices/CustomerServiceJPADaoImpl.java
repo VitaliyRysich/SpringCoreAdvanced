@@ -16,7 +16,7 @@ import java.util.List;
  * Created by jt on 12/14/15.
  */
 @Service
-@Profile("jpadao-dontuse")
+@Profile("jpadao")
 public class CustomerServiceJPADaoImpl extends AbstractJpaDaoService implements CustomerService {
 
     private EncryptionService encryptionService;
@@ -64,22 +64,26 @@ public class CustomerServiceJPADaoImpl extends AbstractJpaDaoService implements 
     }
 
     @Override
+    public Customer saveOrUpdateCustomerForm(CustomerForm customerForm) {
+        Customer newCustomer = customerFormToCustomer.convert(customerForm);
+
+        //enhance if saved
+        if(newCustomer.getUser().getId() != null){
+            Customer existingCustomer = getById(newCustomer.getUser().getId());
+
+            //set enabled flag from db
+            newCustomer.getUser().setEnabled(existingCustomer.getUser().getEnabled());
+        }
+
+        return saveOrUpdate(newCustomer);
+    }
+
+    @Override
     public void delete(Integer id) {
         EntityManager em = emf.createEntityManager();
 
         em.getTransaction().begin();
         em.remove(em.find(Customer.class, id));
         em.getTransaction().commit();
-    }
-
-    @Override
-    public Customer saveOrUpdateCustomerForm(CustomerForm customerForm) {
-        Customer customer = customerFormToCustomer.convert(customerForm);
-        if (customer.getUser().getId() != null){
-            Customer existingCustomer = getById(customer.getId());
-
-            customer.getUser().setEnabled(existingCustomer.getUser().getEnabled());
-        }
-        return saveOrUpdate(customer);
     }
 }

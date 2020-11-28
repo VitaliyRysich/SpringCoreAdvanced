@@ -21,16 +21,17 @@ import javax.validation.Valid;
 public class ProductController {
 
     private ProductService productService;
-    private ProductToProductForm productToProductForm;
 
-    @Autowired
-    public void setProductService(ProductService productService) {
-        this.productService = productService;
-    }
+    private ProductToProductForm productToProductForm;
 
     @Autowired
     public void setProductToProductForm(ProductToProductForm productToProductForm) {
         this.productToProductForm = productToProductForm;
+    }
+
+    @Autowired
+    public void setProductService(ProductService productService) {
+        this.productService = productService;
     }
 
     @RequestMapping("/product/list")
@@ -50,7 +51,7 @@ public class ProductController {
         Product product = productService.getById(id);
         ProductForm productForm = productToProductForm.convert(product);
 
-        model.addAttribute("product", productForm);
+        model.addAttribute("productForm", productForm);
         return "product/productform";
     }
 
@@ -67,8 +68,9 @@ public class ProductController {
             return "product/productform";
         }
 
-        ProductForm savedProduct = productService.saveOrUpdateProductForm(productForm);
-        return "redirect:/product/show/" + savedProduct.getProductId();
+        Product savedProduct = productService.saveOrUpdateProductForm(productForm);
+
+        return "redirect:/product/show/" + savedProduct.getId();
     }
 
     @RequestMapping("/product/delete/{id}")

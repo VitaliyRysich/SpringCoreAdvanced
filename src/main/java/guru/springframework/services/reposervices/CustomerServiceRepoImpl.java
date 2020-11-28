@@ -14,32 +14,36 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Created by jt on 12/21/15.
+ */
 @Service
-@Profile({"springdatajpa", "jpadao"})
+@Profile("springdatajpa")
 public class CustomerServiceRepoImpl implements CustomerService {
 
     private CustomerRepository customerRepository;
-    private CustomerFormToCustomer customerFormToCustomer;
     private UserRepository userRepository;
+    private CustomerFormToCustomer customerFormToCustomer;
 
     @Autowired
-    public void setCustomerServiceRepo(CustomerRepository customerRepository) {
+    public void setCustomerRepository(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
+    }
+
+    @Autowired
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Autowired
     public void setCustomerFormToCustomer(CustomerFormToCustomer customerFormToCustomer) {
         this.customerFormToCustomer = customerFormToCustomer;
     }
-    @Autowired
-    public void setUserRepository(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     @Override
     public List<?> listAll() {
         List<Customer> customers = new ArrayList<>();
-        customerRepository.findAll().forEach(customers::add);
+        customerRepository.findAll().forEach(customers::add); //fun with Java 8
         return customers;
     }
 
@@ -54,22 +58,25 @@ public class CustomerServiceRepoImpl implements CustomerService {
     }
 
     @Override
+    public Customer saveOrUpdateCustomerForm(CustomerForm customerForm) {
+        Customer newCustomer = customerFormToCustomer.convert(customerForm);
+
+        if(newCustomer.getUser().getId() != null){
+            Customer existingCustomer = getById(newCustomer.getId());
+
+            newCustomer.getUser().setEnabled(existingCustomer.getUser().getEnabled());
+        }
+
+        return saveOrUpdate(newCustomer);
+    }
+
+    @Override
     @Transactional
     public void delete(Integer id) {
+
         Customer customer = customerRepository.findOne(id);
 
         userRepository.delete(customer.getUser());
         customerRepository.delete(customer);
-    }
-
-    @Override
-    public Customer saveOrUpdateCustomerForm(CustomerForm customerForm) {
-        Customer customer = customerFormToCustomer.convert(customerForm);
-        if (customer.getUser().getId() != null){
-            Customer existingCustomer = getById(customer.getId());
-
-            customer.getUser().setEnabled(existingCustomer.getUser().getEnabled());
-        }
-        return saveOrUpdate(customer);
     }
 }

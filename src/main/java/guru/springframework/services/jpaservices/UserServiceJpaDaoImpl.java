@@ -14,7 +14,7 @@ import java.util.List;
  * Created by jt on 12/14/15.
  */
 @Service
-@Profile("jpadao-dontuse")
+@Profile("jpadao")
 public class UserServiceJpaDaoImpl extends AbstractJpaDaoService implements UserService {
 
     private EncryptionService encryptionService;
@@ -64,9 +64,9 @@ public class UserServiceJpaDaoImpl extends AbstractJpaDaoService implements User
     }
 
     @Override
-    public User findByUserName(String name) {
+    public User findByUserName(String userName) {
         EntityManager em = emf.createEntityManager();
-        String query = "from User where username = :userName";
-        return em.createQuery(query, User.class).getSingleResult();
+
+        return em.createQuery("from User where username = :userName", User.class).getSingleResult();
     }
 }

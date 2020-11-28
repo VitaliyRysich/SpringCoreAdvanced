@@ -7,6 +7,6 @@ import guru.springframework.domain.User;
  */
 public interface UserService extends CRUDService<User> {
 
-    User findByUserName(String name);
+    User findByUserName(String userName);
 
 }

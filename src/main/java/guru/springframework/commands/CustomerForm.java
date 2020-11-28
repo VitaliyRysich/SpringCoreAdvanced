@@ -5,6 +5,9 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.Size;
 
+/**
+ * Created by jt on 12/22/15.
+ */
 public class CustomerForm {
     private Integer userId;
     private Integer userVersion;
@@ -14,8 +17,10 @@ public class CustomerForm {
     @NotEmpty
     @Size(min = 2, max = 75)
     private String userName;
+
     @NotEmpty
     private String passwordText;
+
     @NotEmpty
     private String passwordTextConf;
     private String firstName;
@@ -25,6 +30,7 @@ public class CustomerForm {
     @Email
     private String email;
     private String phoneNumber;
+
 
     public Integer getUserId() {
         return userId;

@@ -5,16 +5,20 @@ import guru.springframework.domain.Product;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
+/**
+ * Created by jt on 12/24/15.
+ */
 @Component
-public class ProductFormToProduct implements Converter<ProductForm, Product> {
+public class ProductFormToProduct implements Converter<ProductForm, Product>{
+
     @Override
     public Product convert(ProductForm productForm) {
         Product product = new Product();
-        product.setId(productForm.getProductId());
-        product.setDescription(productForm.getProductDescription());
-        product.setPrice(productForm.getProductPrice());
-        product.setVersion(productForm.getProductVersion());
-        product.setImageUrl(productForm.getProductImageUrl());
+        product.setId(productForm.getId());
+        product.setVersion(productForm.getVersion());
+        product.setDescription(productForm.getDescription());
+        product.setPrice(productForm.getPrice());
+        product.setImageUrl(productForm.getImageUrl());
         return product;
     }
 }

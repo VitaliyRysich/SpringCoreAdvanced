@@ -47,12 +47,14 @@ public class CustomerServiceImpl extends AbstractMapService implements CustomerS
 
     @Override
     public Customer saveOrUpdateCustomerForm(CustomerForm customerForm) {
-        Customer customer = customerFormToCustomer.convert(customerForm);
-        if (customer.getUser().getId() != null){
-            Customer existingCustomer = getById(customer.getId());
+        Customer newCustomer = customerFormToCustomer.convert(customerForm);
 
-            customer.getUser().setEnabled(existingCustomer.getUser().getEnabled());
+        if(newCustomer.getUser().getId() != null){
+            Customer existingCustomer = getById(newCustomer.getId());
+
+            newCustomer.getUser().setEnabled(existingCustomer.getUser().getEnabled());
         }
-        return saveOrUpdate(customer);
+
+        return saveOrUpdate(newCustomer);
     }
 }
