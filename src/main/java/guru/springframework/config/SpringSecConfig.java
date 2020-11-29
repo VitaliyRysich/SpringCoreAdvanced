@@ -21,11 +21,28 @@ public class SpringSecConfig extends WebSecurityConfigurerAdapter {
 
     private AuthenticationProvider authenticationProvider;
 
+
     @Autowired
-    @Qualifier("daoAuthenticationProvider")
+//    @Qualifier("daoAuthenticationProvider")
     public void setAuthenticationProvider(AuthenticationProvider authenticationProvider) {
         this.authenticationProvider = authenticationProvider;
     }
+
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().ignoringAntMatchers("/h2-console").disable()
+                .authorizeRequests().antMatchers("/**/favicon.ico") .permitAll()
+                .and().authorizeRequests().antMatchers("/product/**").permitAll()
+                .and().authorizeRequests().antMatchers("/webjars/**").permitAll()
+                .and().authorizeRequests().antMatchers("/static/css").permitAll()
+                .and().authorizeRequests().antMatchers("/js").permitAll()
+                .and().formLogin().loginPage("/login").permitAll()
+                .and().authorizeRequests().antMatchers("/customer/**").authenticated()
+                .and().authorizeRequests().antMatchers("/user/**").hasRole("ADMIN")
+                .and().exceptionHandling().accessDeniedPage("/access_denied");
+    }
+
 
     @Bean
     public PasswordEncoder passwordEncoder(StrongPasswordEncryptor passwordEncryptor){
@@ -49,17 +66,5 @@ public class SpringSecConfig extends WebSecurityConfigurerAdapter {
         authenticationManagerBuilder.authenticationProvider(authenticationProvider);
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().ignoringAntMatchers("/h2-console").disable()
-                .authorizeRequests().antMatchers("/**/favicon.ico") .permitAll()
-                .and().authorizeRequests().antMatchers("/product/**").permitAll()
-                .and().authorizeRequests().antMatchers("/webjars/**").permitAll()
-                .and().authorizeRequests().antMatchers("/static/css").permitAll()
-                .and().authorizeRequests().antMatchers("/js").permitAll()
-                .and().formLogin().loginPage("/login").permitAll()
-                .and().authorizeRequests().antMatchers("/customer/**").authenticated()
-                .and().authorizeRequests().antMatchers("/user/**").hasRole("ADMIN")
-                .and().exceptionHandling().accessDeniedPage("/access_denied");
-    }
+
 }
