@@ -3,6 +3,7 @@ package guru.springframework.domain;
 import guru.springframework.domain.security.Role;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +32,8 @@ public class User extends AbstractDomainClass  {
     // ~ defaults to @JoinTable(name = "USER_ROLE", joinColumns = @JoinColumn(name = "user_id"),
     //     inverseJoinColumns = @joinColumn(name = "role_id"))
     private List<Role> roles = new ArrayList<>();
+
+    private Integer failedLoginAttempts = 0;
 
     public String getUsername() {
         return username;
@@ -103,4 +106,13 @@ public class User extends AbstractDomainClass  {
         this.roles.remove(role);
         role.getUsers().remove(this);
     }
+
+    public Integer getFailedLoginAttempts() {
+        return failedLoginAttempts;
+    }
+
+    public void setFailedLoginAttempts(Integer failedLoginAttempts) {
+        this.failedLoginAttempts = failedLoginAttempts;
+    }
 }
+
