@@ -1,4 +1,4 @@
-package guru.springframework.services.security;
+package guru.springframework.services.security.loginfailureevent;
 
 import guru.springframework.domain.User;
 import guru.springframework.services.UserService;
@@ -30,13 +30,12 @@ public class LoginFailureEventHandler implements ApplicationListener<LoginFailur
 
         if(user != null){
             user.setFailedLoginAttempts(user.getFailedLoginAttempts() + 1);
-        }
 
-        if(user.getFailedLoginAttempts() > 5){
-            user.setEnabled(false);
+            if(user.getFailedLoginAttempts() > 5){
+                user.setEnabled(false);
+            }
+            System.out.println("Valid User name, updating failed attempts" + user);
+            userService.saveOrUpdate(user);
         }
-
-        System.out.println("Valid User name, updating failed attempts");
-        userService.saveOrUpdate(user);
     }
 }

@@ -114,5 +114,19 @@ public class User extends AbstractDomainClass  {
     public void setFailedLoginAttempts(Integer failedLoginAttempts) {
         this.failedLoginAttempts = failedLoginAttempts;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", encryptedPassword='" + encryptedPassword + '\'' +
+                ", enabled=" + enabled +
+                ", customer=" + customer +
+                ", cart=" + cart +
+                ", roles=" + roles +
+                ", failedLoginAttempts=" + failedLoginAttempts +
+                '}';
+    }
 }
 

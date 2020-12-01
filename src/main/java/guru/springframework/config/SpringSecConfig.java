@@ -19,14 +19,15 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 @Configuration
 public class SpringSecConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
     private AuthenticationProvider authenticationProvider;
 
 
-    @Autowired
+//    @Autowired
 //    @Qualifier("daoAuthenticationProvider")
-    public void setAuthenticationProvider(AuthenticationProvider authenticationProvider) {
-        this.authenticationProvider = authenticationProvider;
-    }
+//    public void setAuthenticationProvider(AuthenticationProvider authenticationProvider) {
+//        this.authenticationProvider = authenticationProvider;
+//    }
 
 
     @Override

@@ -1,11 +1,11 @@
-package guru.springframework.services.security;
+package guru.springframework.services.security.loginsuccessevent;
 
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.stereotype.Component;
 
 @Component
-public class LoginFailureEventPublisher implements ApplicationEventPublisherAware {
+public class LoginSuccessEventPublisher implements ApplicationEventPublisherAware {
 
     private ApplicationEventPublisher publisher;
 
@@ -14,7 +14,7 @@ public class LoginFailureEventPublisher implements ApplicationEventPublisherAwar
         this.publisher = applicationEventPublisher;
     }
 
-    public void publish(LoginFailureEvent event) {
+    public void publish(LoginSuccessEvent event){
         this.publisher.publishEvent(event);
     }
 }
